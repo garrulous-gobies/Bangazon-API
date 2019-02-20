@@ -25,3 +25,9 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:
     model = Order
     fields = '__all__'
+
+class PaymentTypeSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = PaymentType
+        fields = '__all__'

@@ -52,3 +52,11 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.id}, {self.customer.firstName} {self.customer.lastName}, {self.payment_type.name if self.payment_type else None} {self.payment_date if self.payment_date else None}"
+
+class PaymentType(models.Model):
+    name = models.CharField(max_length=50)
+    accountNumber = models.IntegerField()
+    # customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='customer')
+
+    def __str__(self):
+        return f'{self.name}, {self.accountNumber}'
