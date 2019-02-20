@@ -21,7 +21,6 @@ class Department(models.Model):
     def __str__(self):
         return f'{self.name}'
 
-
 class Computer(models.Model):
     model = models.CharField(max_length=100)
     manufacturer = models.CharField(max_length=100)
@@ -39,3 +38,10 @@ class Employee_Computer(models.Model):
 
     def __str__(self):
         return self
+class PaymentType(models.Model):
+    name = models.CharField(max_length=50)
+    accountNumber = models.IntegerField()
+    # customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='customer')
+
+    def __str__(self):
+        return f'{self.name}, {self.accountNumber}'

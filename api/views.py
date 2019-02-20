@@ -31,3 +31,7 @@ class ComputerViewSet(viewsets.ModelViewSet):
 class EmployeeComputerViewSet(viewsets.ModelViewSet):
     queryset = Employee_Computer.objects.all()
     serializer_class = EmployeeComputerSerializer
+
+class PaymentTypeViewSet(viewsets.ModelViewSet):
+    queryset = PaymentType.objects.all()
+    serializer_class = PaymentTypeSerializer
