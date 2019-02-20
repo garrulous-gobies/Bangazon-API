@@ -1,6 +1,5 @@
-  from rest_framework import serializers
+from rest_framework import serializers
 from api.models import *
-from rest_framework import serializers 
 
 class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -14,3 +13,9 @@ class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:
     model = Employee
     fields = ('firstName','lastName','startDate','isSupervisor','department')
+
+class PaymentTypeSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = PaymentType
+        fields = '__all__'
