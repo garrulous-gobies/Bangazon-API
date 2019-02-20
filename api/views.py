@@ -22,3 +22,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class DepartmentViewSet(viewsets.ModelViewSet):
   queryset = Department.objects.all()
   serializer_class = DepartmentSerializer
+
+class PaymentTypeViewSet(viewsets.ModelViewSet):
+    queryset = PaymentType.objects.all()
+    serializer_class = PaymentTypeSerializer
