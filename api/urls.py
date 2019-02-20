@@ -6,6 +6,10 @@ from api import views
 router = DefaultRouter()
 router.register('employees', views.EmployeeViewSet)
 router.register('departments', views.DepartmentViewSet)
+router.register('computers', views.ComputerViewSet)
+router.register('employee_computers', views.EmployeeComputerViewSet)
+
+
 
 urlpatterns = [
   path('api/v1/', include(router.urls))

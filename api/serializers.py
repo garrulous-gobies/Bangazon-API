@@ -1,6 +1,5 @@
-  from rest_framework import serializers
+from rest_framework import serializers
 from api.models import *
-from rest_framework import serializers 
 
 class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -8,9 +7,23 @@ class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
     model = Department
     fields = '__all__'
 
+class ComputerSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Computer
+        fields = '__all__'
+
+class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = Employee_Computer
+        fields='__all__'
+        depth = 1
+
 class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
   department = DepartmentSerializer()
+  computer = ComputerSerializer()
 
   class Meta:
     model = Employee
-    fields = ('firstName','lastName','startDate','isSupervisor','department')
+    fields = ('firstName','lastName','startDate','isSupervisor','department', 'computer')

@@ -12,7 +12,8 @@ from api.serializers import *
 def api_root(request, format=None):
     return Response({
         'employees': reverse('employees', request=request, format=format),
-        'departments': reverse('departments', request=request, format=format)
+        'departments': reverse('departments', request=request, format=format),
+        'computers': reverse('computers', request=request, format=format)
     })
 
 class EmployeeViewSet(viewsets.ModelViewSet):
@@ -22,3 +23,11 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class DepartmentViewSet(viewsets.ModelViewSet):
   queryset = Department.objects.all()
   serializer_class = DepartmentSerializer
+
+class ComputerViewSet(viewsets.ModelViewSet):
+    queryset = Computer.objects.all()
+    serializer_class = ComputerSerializer
+
+class EmployeeComputerViewSet(viewsets.ModelViewSet):
+    queryset = Employee_Computer.objects.all()
+    serializer_class = EmployeeComputerSerializer
