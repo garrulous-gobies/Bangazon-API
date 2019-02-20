@@ -40,6 +40,14 @@ class Customer(models.Model):
     class Meta:
         ordering = ('lastName',)
 
+class PaymentType(models.Model):
+    name = models.CharField(max_length=50)
+    accountNumber = models.IntegerField()
+    customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, blank=False, related_name='customer')
+
+    def __str__(self):
+        return f'{self.name}, {self.accountNumber}'
+
 class Order(models.Model):
     """ Defines an order
         Author: Brendan McCray
@@ -47,16 +55,8 @@ class Order(models.Model):
     """
 
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
-    # payment_type = models.ForeignKey(PaymentType, on_delete=models.PROTECT, default=None, null=True, blank=True)
+    payment_type = models.ForeignKey(PaymentType, on_delete=models.PROTECT, default=None, null=True, blank=True)
     payment_date = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.id}, {self.customer.firstName} {self.customer.lastName}, {self.payment_type.name if self.payment_type else None} {self.payment_date if self.payment_date else None}"
-
-class PaymentType(models.Model):
-    name = models.CharField(max_length=50)
-    accountNumber = models.IntegerField()
-    # customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, related_name='customer')
-
-    def __str__(self):
-        return f'{self.name}, {self.accountNumber}'
+        return f"{self.id}, {self.customer.firstName} {self.customer.lastName}, {self.payment_type.name if self.payment_type else None} {self.payment_date}"
