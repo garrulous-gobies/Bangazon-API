@@ -44,3 +44,9 @@ class ProductType(models.Model):
 
     def __str__(self):
         return f'{self.name}'
+
+class TrainingProgram(models.Model):
+    name = models.CharField(max_length=50)
+    startDate = models.DateField(null=True, blank=True)
+    endDate = models.DateField(null=True, blank=True)
+    maxAttendees = models.IntegerField()

@@ -31,3 +31,9 @@ class ProductTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ProductType
         fields = ('id', 'url', 'name')
+
+class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = TrainingProgram
+        fields = '__all__'

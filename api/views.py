@@ -34,3 +34,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 class ProductTypeViewSet(viewsets.ModelViewSet):
     queryset = ProductType.objects.all()
     serializer_class = ProductTypeSerializer
+
+class TrainingProgramViewSet(viewsets.ModelViewSet):
+    queryset = TrainingProgram.objects.all()
+    serializer_class = TrainingProgramSerializer
