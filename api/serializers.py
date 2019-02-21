@@ -16,6 +16,18 @@ class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
 
+  def __init__(self, *args, **kwargs):
+        super(CustomerSerializer, self).__init__(*args, **kwargs)
+
+        request = kwargs['context']['request']
+        include = request.query_params.get('_include')
+
+        if include == 'products':
+            self.fields['products'] = ProductSerializer(source='product_set', many=True, read_only=True)
+
+        if include == 'payments':
+            self.fields['payment_types'] = PaymentTypeSerializer(source='customer_payment', many=True, read_only=True)
+
   class Meta:
     model = Customer
     fields = '__all__'
@@ -39,7 +51,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class ProductTypeSerializer(serializers.HyperlinkedModelSerializer):
-    
+
     class Meta:
         model = ProductType
         fields = ('id', 'url', 'name')

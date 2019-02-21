@@ -33,6 +33,8 @@ class Customer(models.Model):
     state = models.CharField(max_length=100)
     zipcode = models.CharField(max_length=20)
     phone_number = models.BigIntegerField()
+    date_joined = models.DateField(default=None, null=True, blank=True)
+    date_deleted = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
         return f"{self.lastName}, {self.firstName}, {self.street_address}, {self.city}, {self.state}, {self.zipcode}, {self.phone_number}"
@@ -43,7 +45,7 @@ class Customer(models.Model):
 class PaymentType(models.Model):
     name = models.CharField(max_length=50)
     accountNumber = models.IntegerField()
-    customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, blank=False, related_name='customer')
+    customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, blank=False, related_name="customer_payment")
 
     def __str__(self):
         return f'{self.name}, {self.accountNumber}'
@@ -55,7 +57,7 @@ class Order(models.Model):
     """
 
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
-    payment_type = models.ForeignKey(PaymentType, on_delete=models.PROTECT, default=None, null=True, blank=True)
+    payment_type = models.ForeignKey(PaymentType, on_delete=models.PROTECT, default=None, null=True, blank=True, related_name='paymentType')
     payment_date = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
@@ -66,7 +68,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.CharField(max_length=50)
     quantity = models.IntegerField()
-    # customer = models.ForeignKey()
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT, default=None, null=True, blank=True)
     productType = models.ForeignKey('ProductType', on_delete=models.SET_NULL, null=True, related_name='productType')
 
     def __str__(self):

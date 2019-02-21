@@ -36,13 +36,16 @@ class CustomerViewSet(viewsets.ModelViewSet):
     print("query params", self.request.query_params)
 
     # search all parameters of each customer based on the params provided
-    keyword = self.request.query_params.get('q', None)
+    keyword = self.request.query_params.get('q')
     if keyword is not None:
         query_set = query_set.filter(Q(firstName__icontains=keyword) | Q(lastName__icontains=keyword) | Q(street_address__icontains=keyword) | Q(city__icontains=keyword) | Q(state__icontains=keyword) | Q(zipcode__icontains=keyword) | Q(phone_number__icontains=keyword))
 
-    # keyword = self.request.query_params.get('_include', None)
-    # if keyword == 'products':
-    #     print("keyword is products...")
+    keyword = self.request.query_params.get('_include')
+    if keyword == 'products':
+        print("keyword is products...")
+
+    elif keyword == 'payments':
+        print("keyword is payments...")
 
     return query_set
 
