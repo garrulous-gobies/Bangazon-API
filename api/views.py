@@ -22,19 +22,27 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 class DepartmentViewSet(viewsets.ModelViewSet):
   queryset = Department.objects.all()
   serializer_class = DepartmentSerializer
+  http_method_names = ['get', 'post', 'put']
 
   def get_queryset(self):
     query_set = Department.objects.all()
-    keyword = self.request.query_params.get('_include', '_filter=budget&_gt', None)
-    if keyword is '_include':
-      print("query params", keyword)
-      query_set = query_set.filter(name__icontains=keyword)
-    elif keyword is '_filter=budget&_gt':
-        print("query params", keyword)
-        query_set = query_set.filter(bugdet__gt=keyword)
-    else:
-        print("NOne???????????????????????????????????????????????????", keyword)
+
+    keyword = self.request.query_params.get('_include')
+    if keyword is not None:
+        print("query params_________", keyword)
+        query_set = query_set.filter(name__icontains=keyword)
+
+    keyword = self.request.query_params.get('_filter')
+    if keyword == 'budget':
+        keyword = self.request.query_params.get('_gt')
+        if keyword is not None:
+            print("query params", keyword)
+            query_set = query_set.filter(budget__gt=keyword)
+
     return query_set
+
+
+  
 
 class PaymentTypeViewSet(viewsets.ModelViewSet):
     queryset = PaymentType.objects.all()
