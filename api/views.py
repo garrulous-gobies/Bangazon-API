@@ -12,23 +12,21 @@ def api_root(request, format=None):
     return Response({
         'employees': reverse('employees', request=request, format=format),
         'departments': reverse('departments', request=request, format=format),
-<<<<<<< HEAD
         'customers': reverse('customers', request=request, format=format),
         'orders': reverse('orders', request=request, format=format)
-=======
         'computers': reverse('computers', request=request, format=format)
->>>>>>> master
     })
 
 class EmployeeViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
 
+
 class DepartmentViewSet(viewsets.ModelViewSet):
   queryset = Department.objects.all()
   serializer_class = DepartmentSerializer
 
-<<<<<<< HEAD
+
 class CustomerViewSet(viewsets.ModelViewSet):
   queryset = Customer.objects.all()
   serializer_class = CustomerSerializer
@@ -56,19 +54,22 @@ class CustomerViewSet(viewsets.ModelViewSet):
 class OrderViewSet(viewsets.ModelViewSet):
   queryset = Order.objects.all()
   serializer_class = OrderSerializer
-=======
+
+
 class ComputerViewSet(viewsets.ModelViewSet):
     queryset = Computer.objects.all()
     serializer_class = ComputerSerializer
->>>>>>> master
+
 
 class PaymentTypeViewSet(viewsets.ModelViewSet):
     queryset = PaymentType.objects.all()
     serializer_class = PaymentTypeSerializer
 
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
 
 class ProductTypeViewSet(viewsets.ModelViewSet):
     queryset = ProductType.objects.all()
