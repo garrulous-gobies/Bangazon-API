@@ -45,8 +45,12 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
         elif include == 'payments':
             self.fields['payment_types'] = PaymentTypeSerializer(source='customer_payment', many=True, read_only=True)
 
-        else:
-          pass
+  class Meta:
+    model = Customer
+    fields = '__all__'
+
+
+class CustomerOnOrderSerializer(serializers.HyperlinkedModelSerializer):
 
   class Meta:
     model = Customer
@@ -65,7 +69,7 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
             self.fields['products'] = OrderProductSerializer(source='orderproduct_set', many=True, read_only=True)
 
         if include == 'customers':
-            self.fields['customers'] = CustomerSerializer(source='customer_set', many=True, read_only=True)
+            self.fields['customer'] = CustomerOnOrderSerializer(read_only=True)
 
   class Meta:
     model = Order
