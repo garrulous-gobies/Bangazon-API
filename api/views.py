@@ -40,6 +40,10 @@ class PaymentTypeViewSet(viewsets.ModelViewSet):
     queryset = PaymentType.objects.all()
     serializer_class = PaymentTypeSerializer
 
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
 class ProductTypeViewSet(viewsets.ModelViewSet):
     queryset = ProductType.objects.all()
     serializer_class = ProductTypeSerializer
