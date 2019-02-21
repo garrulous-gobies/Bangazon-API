@@ -5,8 +5,7 @@ class Employee(models.Model):
     lastName = models.CharField(max_length=100)
     startDate = models.DateField(null=True, blank=True)
     isSupervisor = models.BooleanField(default=False)
-    department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True)
-    computer = models.ManyToManyField('Computer', through="Employee_Computer", related_name='employees')
+    department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True, related_name='department')
 
     def __str__(self):
         return f'{self.lastName}, {self.firstName}'
@@ -53,7 +52,7 @@ class Computer(models.Model):
     decommissionDate = models.DateField(null=True, blank=True)
 
     def __str__(self):
-        return self
+        return f'{self.model}, {self.manufacturer}'
 
 
 class Employee_Computer(models.Model):
@@ -70,7 +69,7 @@ class Employee_Computer(models.Model):
             return False
 
     def __str__(self):
-        return self
+        return f'currently_assigned: {self.current_assignment}'
 
 
 class PaymentType(models.Model):
