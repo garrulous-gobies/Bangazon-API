@@ -24,7 +24,7 @@ class Department(models.Model):
 class Computer(models.Model):
     model = models.CharField(max_length=100)
     manufacturer = models.CharField(max_length=100)
-    purchaseDate = models.DateField()
+    purchaseDate = models.DateField(null=True, blank=True)
     decommissionDate = models.DateField(null=True, blank=True)
 
     def __str__(self):
