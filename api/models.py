@@ -50,3 +50,7 @@ class TrainingProgram(models.Model):
     startDate = models.DateField(null=True, blank=True)
     endDate = models.DateField(null=True, blank=True)
     maxAttendees = models.IntegerField()
+
+class EmployeeTrainingProgram(models.Model):
+    employee = models.ForeignKey('employee', on_delete=models.SET_NULL, null=True, related_name='employee')
+    trainingProgram = models.ForeignKey('TrainingProgram', on_delete=models.SET_NULL, null=True, related_name='employee')

@@ -37,3 +37,9 @@ class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = TrainingProgram
         fields = '__all__'
+
+class EmployeeTrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
+
+    class Meta:
+        model = EmployeeTrainingProgram
+        fields = '__all__'
