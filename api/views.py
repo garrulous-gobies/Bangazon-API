@@ -19,11 +19,11 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
 
 class DepartmentViewSet(viewsets.ModelViewSet):
-    '''Summary: Can view departments and department details. Can search in url ith "_include=" for a name of part of name for a department. Can search for departments with budgets grater than a certain number with "_filter=budget&_gt=". 
+    '''Summary: Can view departments and department details. Can search in url with "?_include=employees" to view all employees in each department department. Can search for departments with budgets greater than a certain number with "?_filter=budget&_gt=  ". 
     
     Verbs supported: GET, POST, PUT
     
-    Author(s): Austin Zoradi, Roger Brondon McCray, Nolan Little, Zac JonesF
+    Author(s): Austin Zoradi, Roger Brondon McCray, Nolan Little, Zac Jones
     '''
 
 
@@ -33,10 +33,6 @@ class DepartmentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_set = Department.objects.all()
-
-        keyword = self.request.query_params.get('_include')
-        if keyword is not None:
-            query_set = query_set.filter(name__icontains=keyword)
 
         keyword = self.request.query_params.get('_filter')
         if keyword == 'budget':
