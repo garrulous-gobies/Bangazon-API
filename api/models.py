@@ -6,6 +6,7 @@ class Employee(models.Model):
     startDate = models.DateField(null=True, blank=True)
     isSupervisor = models.BooleanField(default=False)
     department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True, related_name='department')
+    computer = models.ManyToManyField('Computer', through="Employee_Computer", related_name='employees')
 
     def __str__(self):
         return f'{self.lastName}, {self.firstName}'
@@ -13,12 +14,14 @@ class Employee(models.Model):
     class Meta:
         ordering = ('lastName',)
 
+
 class Department(models.Model):
     name = models.CharField(max_length=100)
     budget = models.IntegerField()
 
     def __str__(self):
         return f'{self.name}'
+
 
 class Customer(models.Model):
     """ Defines an customer (effectively a user)
@@ -42,6 +45,34 @@ class Customer(models.Model):
     class Meta:
         ordering = ('lastName',)
 
+
+class Computer(models.Model):
+    model = models.CharField(max_length=100)
+    manufacturer = models.CharField(max_length=100)
+    purchaseDate = models.DateField(null=True, blank=True)
+    decommissionDate = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return self
+
+
+class Employee_Computer(models.Model):
+    employee = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
+    computer = models.ForeignKey('Computer', on_delete=models.SET_NULL, null=True)
+    assign_date = models.DateField(null=True, blank=True)
+    unassign_date = models.DateField(null=True, blank=True)
+
+    @property
+    def current_assignment(self):
+        if self.assign_date != None and self.unassign_date == None :
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return self
+
+
 class PaymentType(models.Model):
     name = models.CharField(max_length=50)
     accountNumber = models.IntegerField()
@@ -50,6 +81,7 @@ class PaymentType(models.Model):
     def __str__(self):
         return f'{self.name}, {self.accountNumber}'
 
+
 class Order(models.Model):
     """ Defines an order
         Author: Brendan McCray
@@ -57,11 +89,12 @@ class Order(models.Model):
     """
 
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
-    payment_type = models.ForeignKey(PaymentType, on_delete=models.PROTECT, default=None, null=True, blank=True, related_name='paymentType')
+    payment_type = models.ForeignKey(PaymentType, on_delete=models.PROTECT, default=None, null=True, blank=True)
     payment_date = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
         return f"{self.id}, {self.customer.firstName} {self.customer.lastName}, {self.payment_type.name if self.payment_type else None} {self.payment_date}"
+
 
 class Product(models.Model):
     title = models.CharField(max_length=50)
@@ -73,6 +106,7 @@ class Product(models.Model):
 
     def __str__(self):
         return f'{self.title}'
+
 
 class ProductType(models.Model):
     name = models.CharField(max_length=100)
