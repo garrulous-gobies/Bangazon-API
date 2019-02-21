@@ -27,3 +27,14 @@ class PaymentType(models.Model):
 
     def __str__(self):
         return f'{self.name}, {self.accountNumber}'
+
+class Product(models.Model):
+    title = models.CharField(max_length=50)
+    price = models.IntegerField()
+    description = models.CharField(max_length=50)
+    quantity = models.IntegerField(max_length=50)
+    # customer = models.ForeignKey()
+    # productType = models.ForeignKey()
+
+    def __str__(self):
+        return f'{self.title}'
