@@ -17,8 +17,8 @@ def api_root(request, format=None):
     })
 
 class EmployeeViewSet(viewsets.ModelViewSet):
-  queryset = Employee.objects.all()
-  serializer_class = EmployeeSerializer
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
 
 class DepartmentViewSet(viewsets.ModelViewSet):
   queryset = Department.objects.all()

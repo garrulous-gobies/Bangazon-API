@@ -13,20 +13,23 @@ class ComputerSerializer(serializers.HyperlinkedModelSerializer):
         model = Computer
         fields = '__all__'
 
-class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = Employee_Computer
-        fields='__all__'
-        depth = 1
 
 class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
   department = DepartmentSerializer()
   computer = ComputerSerializer()
 
+
   class Meta:
     model = Employee
     fields = ('firstName','lastName','startDate','isSupervisor','department', 'computer')
+
+class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
+    current_assignment = Employee_Computer.current_assignment
+
+    class Meta:
+        model = Employee_Computer
+        fields=('assign_date', 'unassign_date', 'current_assignment')
+        depth = 1
 
 class PaymentTypeSerializer(serializers.HyperlinkedModelSerializer):
 

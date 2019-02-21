@@ -34,10 +34,20 @@ class Computer(models.Model):
 class Employee_Computer(models.Model):
     employee = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
     computer = models.ForeignKey('Computer', on_delete=models.SET_NULL, null=True)
-    dateAssigned = models.DateField(null=True, blank=True)
+    assign_date = models.DateField(null=True, blank=True)
+    unassign_date = models.DateField(null=True, blank=True)
+
+    @property
+    def current_assignment(self):
+        if self.assign_date != None and self.unassign_date == None :
+            return True
+        else:
+            return False
 
     def __str__(self):
         return self
+
+
 class PaymentType(models.Model):
     name = models.CharField(max_length=50)
     accountNumber = models.IntegerField()
