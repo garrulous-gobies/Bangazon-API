@@ -9,6 +9,8 @@ router.register('departments', views.DepartmentViewSet)
 router.register('computers', views.ComputerViewSet)
 router.register('employee_computers', views.EmployeeComputerViewSet)
 router.register('paymentType', views.PaymentTypeViewSet)
+router.register('productType', views.ProductTypeViewSet)
+router.register('product', views.ProductViewSet)
 
 urlpatterns = [
   path('api/v1/', include(router.urls))
