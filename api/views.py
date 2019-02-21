@@ -35,6 +35,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     query_set = self.queryset
     print("query params", self.request.query_params)
 
+    # search all parameters of each customer based on the params provided
     keyword = self.request.query_params.get('q', None)
     if keyword is not None:
         query_set = query_set.filter(Q(firstName__icontains=keyword) | Q(lastName__icontains=keyword) | Q(street_address__icontains=keyword) | Q(city__icontains=keyword) | Q(state__icontains=keyword) | Q(zipcode__icontains=keyword) | Q(phone_number__icontains=keyword))
@@ -53,6 +54,10 @@ class OrderViewSet(viewsets.ModelViewSet):
 class PaymentTypeViewSet(viewsets.ModelViewSet):
     queryset = PaymentType.objects.all()
     serializer_class = PaymentTypeSerializer
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 class ProductTypeViewSet(viewsets.ModelViewSet):
     queryset = ProductType.objects.all()
