@@ -23,6 +23,19 @@ class DepartmentViewSet(viewsets.ModelViewSet):
   queryset = Department.objects.all()
   serializer_class = DepartmentSerializer
 
+  def get_queryset(self):
+    query_set = Department.objects.all()
+    keyword = self.request.query_params.get('_include', '_filter=budget&_gt', None)
+    if keyword is '_include':
+      print("query params", keyword)
+      query_set = query_set.filter(name__icontains=keyword)
+    elif keyword is '_filter=budget&_gt':
+        print("query params", keyword)
+        query_set = query_set.filter(bugdet__gt=keyword)
+    else:
+        print("NOne???????????????????????????????????????????????????", keyword)
+    return query_set
+
 class PaymentTypeViewSet(viewsets.ModelViewSet):
     queryset = PaymentType.objects.all()
     serializer_class = PaymentTypeSerializer
