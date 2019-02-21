@@ -60,3 +60,9 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.id}, {self.customer.firstName} {self.customer.lastName}, {self.payment_type.name if self.payment_type else None} {self.payment_date}"
+
+class ProductType(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.name}'
