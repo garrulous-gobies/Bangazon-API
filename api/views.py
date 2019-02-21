@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -29,6 +30,21 @@ class CustomerViewSet(viewsets.ModelViewSet):
   queryset = Customer.objects.all()
   serializer_class = CustomerSerializer
   http_method_names = ['get', 'post', 'put']
+
+  def get_queryset(self):
+    query_set = self.queryset
+    print("query params", self.request.query_params)
+
+    keyword = self.request.query_params.get('q', None)
+    if keyword is not None:
+        query_set = query_set.filter(Q(firstName__icontains=keyword) | Q(lastName__icontains=keyword) | Q(street_address__icontains=keyword) | Q(city__icontains=keyword) | Q(state__icontains=keyword) | Q(zipcode__icontains=keyword) | Q(phone_number__icontains=keyword))
+
+    # keyword = self.request.query_params.get('_include', None)
+    # if keyword == 'products':
+    #     print("keyword is products...")
+
+    return query_set
+
 
 class OrderViewSet(viewsets.ModelViewSet):
   queryset = Order.objects.all()
