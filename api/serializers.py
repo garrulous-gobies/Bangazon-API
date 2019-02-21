@@ -3,9 +3,18 @@ from api.models import *
 
 class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
-  class Meta:
-    model = Department
-    fields = '__all__'
+    def __init__(self, *args, **kwargs):
+        super(DepartmentSerializer, self).__init__(*args, **kwargs)
+
+        request = kwargs['context']['request']
+        include = request.query_params.get('_include')
+
+        if include == 'employees':
+            self.fields['employees'] = EmployeeSerializer(source='employee_set', many=True, read_only=True)
+
+    class Meta:
+        model = Department
+        fields = '__all__'
 
 
 class ComputerSerializer(serializers.HyperlinkedModelSerializer):
@@ -16,10 +25,12 @@ class ComputerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
+#   department = DepartmentSerializer()
+#   computer = ComputerSerializer()
 
   class Meta:
     model = Employee
-    fields = '__all__'
+    fields = ('id','url','firstName','lastName','startDate','isSupervisor','department','computer')
 
 
 class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
