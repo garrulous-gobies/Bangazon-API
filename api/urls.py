@@ -6,6 +6,7 @@ from api import views
 router = DefaultRouter()
 router.register('employees', views.EmployeeViewSet)
 router.register('departments', views.DepartmentViewSet)
+router.register('computers', views.ComputerViewSet)
 router.register('paymentType', views.PaymentTypeViewSet)
 router.register('productType', views.ProductTypeViewSet)
 router.register('product', views.ProductViewSet)
