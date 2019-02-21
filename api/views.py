@@ -19,35 +19,47 @@ class EmployeeViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
 
 class DepartmentViewSet(viewsets.ModelViewSet):
-  queryset = Department.objects.all()
-  serializer_class = DepartmentSerializer
-  http_method_names = ['get', 'post', 'put']
+    '''Summary: Can view departments and department details. Can search in url ith "_include=" for a name of part of name for a department. Can search for departments with budgets grater than a certain number with "_filter=budget&_gt=". 
+    
+    Verbs supported: GET, POST, PUT
+    
+    Author(s): Austin Zoradi, Roger Brondon McCray, Nolan Little, Zac JonesF
+    '''
 
-  def get_queryset(self):
-    query_set = Department.objects.all()
 
-    keyword = self.request.query_params.get('_include')
-    if keyword is not None:
-        print("query params_________", keyword)
-        query_set = query_set.filter(name__icontains=keyword)
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    http_method_names = ['get', 'post', 'put']
 
-    keyword = self.request.query_params.get('_filter')
-    if keyword == 'budget':
-        keyword = self.request.query_params.get('_gt')
+    def get_queryset(self):
+        query_set = Department.objects.all()
+
+        keyword = self.request.query_params.get('_include')
         if keyword is not None:
-            print("query params", keyword)
-            query_set = query_set.filter(budget__gt=keyword)
+            query_set = query_set.filter(name__icontains=keyword)
 
-    return query_set
+        keyword = self.request.query_params.get('_filter')
+        if keyword == 'budget':
 
+            keyword = self.request.query_params.get('_gt')
+            if keyword is not None:
+                query_set = query_set.filter(budget__gt=keyword)
 
-  
+        return query_set
+
 
 class ComputerViewSet(viewsets.ModelViewSet):
     queryset = Computer.objects.all()
     serializer_class = ComputerSerializer
 
 class PaymentTypeViewSet(viewsets.ModelViewSet):
+    '''Summary: ViewSet for payment types. Can view all payment types and details. 
+
+    Verbs supported: GET, POST, PUT, DELETE
+    
+    Author(s): Ausitn Zoradi
+    '''
+
     queryset = PaymentType.objects.all()
     serializer_class = PaymentTypeSerializer
 
@@ -56,5 +68,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 class ProductTypeViewSet(viewsets.ModelViewSet):
+    '''Summary: ViewSet for product types. Can view all product types and details. 
+
+    Verbs supported: GET, POST, PUT, DELETE
+    
+    Author(s): Ausitn Zoradi
+    '''
     queryset = ProductType.objects.all()
     serializer_class = ProductTypeSerializer
