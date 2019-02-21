@@ -96,20 +96,25 @@ class Order(models.Model):
         return f"{self.id}, {self.customer.firstName} {self.customer.lastName}, {self.payment_type.name if self.payment_type else None} {self.payment_date}"
 
 
+class ProductType(models.Model):
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f'{self.name}'
+
+
 class Product(models.Model):
     title = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.CharField(max_length=50)
     quantity = models.IntegerField()
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT, default=None, null=True, blank=True)
-    productType = models.ForeignKey('ProductType', on_delete=models.SET_NULL, null=True, related_name='productType')
+    productType = models.ForeignKey(ProductType, on_delete=models.SET_NULL, null=True, related_name='productType')
 
     def __str__(self):
         return f'{self.title}'
 
 
-class ProductType(models.Model):
-    name = models.CharField(max_length=100)
-
-    def __str__(self):
-        return f'{self.name}'
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None, null=True, blank=True)

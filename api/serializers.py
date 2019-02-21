@@ -16,12 +16,10 @@ class ComputerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
-  department = DepartmentSerializer()
-  computer = ComputerSerializer()
 
   class Meta:
     model = Employee
-    fields = ('firstName','lastName','startDate','isSupervisor','department', 'computer')
+    fields = '__all__'
 
 
 class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,8 +42,11 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
         if include == 'products':
             self.fields['products'] = ProductSerializer(source='product_set', many=True, read_only=True)
 
-        if include == 'payments':
+        elif include == 'payments':
             self.fields['payment_types'] = PaymentTypeSerializer(source='customer_payment', many=True, read_only=True)
+
+        else:
+          pass
 
   class Meta:
     model = Customer
@@ -53,6 +54,18 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
+
+  def __init__(self, *args, **kwargs):
+        super(OrderSerializer, self).__init__(*args, **kwargs)
+
+        request = kwargs['context']['request']
+        include = request.query_params.get('_include')
+
+        if include == 'products':
+            self.fields['products'] = OrderProductSerializer(source='orderproduct_set', many=True, read_only=True)
+
+        if include == 'customers':
+            self.fields['customers'] = CustomerSerializer(source='customer_set', many=True, read_only=True)
 
   class Meta:
     model = Order
@@ -72,6 +85,12 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         model = Product
         fields = '__all__'
 
+class OrderProductSerializer(serializers.HyperlinkedModelSerializer):
+    product = ProductSerializer()
+
+    class Meta:
+        model = OrderProduct
+        fields = ('product',)
 
 class ProductTypeSerializer(serializers.HyperlinkedModelSerializer):
 
