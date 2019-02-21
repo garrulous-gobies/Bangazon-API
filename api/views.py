@@ -34,7 +34,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
   def get_queryset(self):
     query_set = self.queryset
-    print("query params", self.request.query_params)
+    print('query params', self.request.query_params)
 
     # search all parameters of each customer based on the params provided
     keyword = self.request.query_params.get('q')
@@ -45,8 +45,23 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-  queryset = Order.objects.all()
-  serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+
+    def get_queryset(self):
+        query_set = self.queryset
+        print('query params', self.request.query_params)
+
+        # search all parameters of each customer based on the params provided
+        keyword = self.request.query_params.get('completed')
+        if keyword == 'True' or keyword == 'true':
+            query_set = query_set.exclude(payment_type__isnull=True)
+        elif keyword == 'False' or keyword == 'false':
+            query_set = query_set.exclude(payment_type__isnull=False)
+        else:
+          pass
+
+        return query_set
 
 
 class ComputerViewSet(viewsets.ModelViewSet):
