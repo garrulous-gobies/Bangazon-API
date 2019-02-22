@@ -114,9 +114,9 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.title}'
 
-
-    def __str__(self):
-        return f'{self.name}'
+class OrderProduct(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, default=None, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None, null=True, blank=True)
 
 class TrainingProgram(models.Model):
     name = models.CharField(max_length=50)
@@ -124,9 +124,9 @@ class TrainingProgram(models.Model):
     endDate = models.DateField(null=True, blank=True)
     maxAttendees = models.IntegerField()
 
+    def __str__(self):
+        return f'{self.name}'
+
 class EmployeeTrainingProgram(models.Model):
     employee = models.ForeignKey('employee', on_delete=models.SET_NULL, null=True, related_name='employee')
     trainingProgram = models.ForeignKey('TrainingProgram', on_delete=models.SET_NULL, null=True, related_name='employee')
-class OrderProduct(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, default=None, null=True, blank=True)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None, null=True, blank=True)
