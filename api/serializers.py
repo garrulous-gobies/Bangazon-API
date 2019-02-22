@@ -8,24 +8,12 @@ class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
         request = kwargs['context']['request']
         include = request.query_params.get('_include')
-
         if include == 'employees':
-            self.fields['employees'] = EmployeeSerializer(source='employee_set', many=True, read_only=True)
+            self.fields['employees'] = EmployeeInDepartmentSerializer(source='employee_set', many=True, read_only=True)
 
     class Meta:
         model = Department
         fields = '__all__'
-
-class EmployeeDepartmentSerializer(serializers.HyperlinkedModelSerializer):
-    """Used with Employee serializer to display department name in Employee resource (list and detail view)
-
-    Author: Brendan McCray
-    """
-
-    class Meta:
-        model = Department
-        fields = ('name','url')
-
 
 
 class ComputerSerializer(serializers.HyperlinkedModelSerializer):
@@ -43,6 +31,17 @@ class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
         fields=('assign_date', 'computer')
 
 
+class EmployeeDepartmentSerializer(serializers.HyperlinkedModelSerializer):
+    """Used with EmployeeSerializer to display department name in Employee resource (list and detail view)
+
+    Author: Brendan McCray
+    """
+
+    class Meta:
+        model = Department
+        exclude = ('budget',)
+
+
 class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
     """Used to display a list view of employees or a detail view of a specific employee
 
@@ -57,6 +56,18 @@ class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
       model = Employee
       fields = ('id','url','firstName','lastName','startDate','isSupervisor','department', 'current_computer')
+
+
+class EmployeeInDepartmentSerializer(serializers.HyperlinkedModelSerializer):
+    """Used with the DepartmentSerializer to nest employee information within each department when the proper url extension is provided
+
+    Authors: Brendan McCray
+    """
+
+    class Meta:
+      model = Employee
+      exclude = ('department',)
+
 
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):

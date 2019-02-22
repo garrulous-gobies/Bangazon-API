@@ -23,13 +23,12 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
-    '''Summary: Can view departments and department details. Can search in url with "?_include=employees" to view all employees in each department department. Can search for departments with budgets greater than a certain number with "?_filter=budget&_gt=  ".
+    '''Summary: Can view departments and department details. Can search in url with "?_include=employees" to view all employees in each department. Can search for departments with budgets greater than a certain number with "?_filter=budget&_gt=  ".
 
     Verbs supported: GET, POST, PUT
 
     Author(s): Austin Zoradi, Brendan McCray, Nolan Little, Zac Jones
     '''
-
 
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
