@@ -1,6 +1,13 @@
 from django.db import models
 
 class Employee(models.Model):
+    """Defines an employee and includes a getter property that evaluates whether the employee has a computer assigned or not
+
+       Authors: Brendan McCray, Nolan Little, Austin Zoradi, Zac Jones
+
+       Methods: __str__ returns lastName and firstName
+    """
+
     firstName = models.CharField(max_length=100)
     lastName = models.CharField(max_length=100)
     startDate = models.DateField(null=True, blank=True)
@@ -24,6 +31,13 @@ class Employee(models.Model):
 
 
 class Department(models.Model):
+    """Defines a department
+
+       Authors: Brendan McCray, Nolan Little, Austin Zoradi, Zac Jones
+
+       Methods: __str__ returns department name
+    """
+
     name = models.CharField(max_length=100)
     budget = models.IntegerField()
 
@@ -33,8 +47,10 @@ class Department(models.Model):
 
 class Customer(models.Model):
     """ Defines an customer (effectively a user)
+
         Author: Brendan McCray
-        Methods: __str__ returns all fields (last name, first name, street_address, city, state, zipcode, and phone_number)
+
+        Methods: __str__ returns all fields
     """
 
     firstName = models.CharField(max_length=100)
@@ -55,6 +71,13 @@ class Customer(models.Model):
 
 
 class Computer(models.Model):
+    """Defines a computer
+
+       Author: Nolan Little
+
+       Methods: __str__ returns computer model and manufacturer
+    """
+
     model = models.CharField(max_length=100)
     manufacturer = models.CharField(max_length=100)
     purchaseDate = models.DateField(null=True, blank=True)
@@ -65,6 +88,13 @@ class Computer(models.Model):
 
 
 class Employee_Computer(models.Model):
+    """Defines an employee and includes a getter property that evaluates whether the employee has a computer assigned or not
+
+       Authors: Nolan Little, Brendan McCray
+
+       Methods: __str__ returns unassign date of computer
+    """
+
     employee = models.ForeignKey('Employee', on_delete=models.SET_NULL, null=True)
     computer = models.ForeignKey('Computer', on_delete=models.SET_NULL, null=True)
     assign_date = models.DateField(null=True, blank=True)
@@ -75,6 +105,13 @@ class Employee_Computer(models.Model):
 
 
 class PaymentType(models.Model):
+    """Defines an employee and includes a getter property that evaluates whether the employee has a computer assigned or not
+
+       Author: Austin Zoradi
+
+       Methods: __str__ returns name and account number
+    """
+
     name = models.CharField(max_length=50)
     accountNumber = models.IntegerField()
     customer = models.ForeignKey('Customer', on_delete=models.SET_NULL, null=True, blank=False, related_name="customer_payment")
@@ -85,8 +122,10 @@ class PaymentType(models.Model):
 
 class Order(models.Model):
     """ Defines an order
+
         Author: Brendan McCray
-        Methods: __str__ returns all fields (customer last name, first name, payment_type, and payment_date)
+
+        Methods: __str__ returns all fields (payment type and date will return None if null)
     """
 
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
@@ -94,10 +133,17 @@ class Order(models.Model):
     payment_date = models.DateField(default=None, null=True, blank=True)
 
     def __str__(self):
-        return f"{self.id}, {self.customer.firstName} {self.customer.lastName}, {self.payment_type.name if self.payment_type else None} {self.payment_date}"
+        return f"{self.id}, {self.customer.firstName} {self.customer.lastName}, {self.payment_type.name if self.payment_type else None} {self.payment_date if self.payment_date else None}"
 
 
 class ProductType(models.Model):
+    """Defines a product type
+
+       Author: Austin Zoradi
+
+       Methods: __str__ retuns name of product type
+    """
+
     name = models.CharField(max_length=100)
 
     def __str__(self):
@@ -105,6 +151,13 @@ class ProductType(models.Model):
 
 
 class Product(models.Model):
+    """Defines a product, which is sold by a customer and can may or may not be associated with one or more orders
+
+       Author: Zac Jones
+
+       Methods: __str__ returns title of product
+    """
+
     title = models.CharField(max_length=50)
     price = models.DecimalField(max_digits=6, decimal_places=2)
     description = models.CharField(max_length=50)
@@ -117,5 +170,15 @@ class Product(models.Model):
 
 
 class OrderProduct(models.Model):
+    """Defines a join table explicitly for products that exist on a given order
+
+       Author: Brendan McCray
+
+       Methods: __str__ returns order and product information, respectively
+    """
+
     order = models.ForeignKey(Order, on_delete=models.CASCADE, default=None, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE, default=None, null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.order} {self.product}'

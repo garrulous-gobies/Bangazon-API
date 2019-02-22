@@ -16,6 +16,17 @@ class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
         model = Department
         fields = '__all__'
 
+class EmployeeDepartmentSerializer(serializers.HyperlinkedModelSerializer):
+    """Used with Employee serializer to display department name in Employee resource (list and detail view)
+
+    Author: Brendan McCray
+    """
+
+    class Meta:
+        model = Department
+        fields = ('name','url')
+
+
 
 class ComputerSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -25,7 +36,6 @@ class ComputerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
-
     computer = ComputerSerializer()
 
     class Meta:
@@ -34,6 +44,14 @@ class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
+    """Used to display a list view of employees or a detail view of a specific employee
+
+    Authors: Brendan McCray, Nolan Little, Austin Zoradi, Zac Jones
+    """
+
+    # nests department name and in each employee
+    department = EmployeeDepartmentSerializer(read_only=True)
+    # nests current computer within each employee (null if no current computer exixts)
     current_computer = EmployeeComputerSerializer(read_only=True)
 
     class Meta:
