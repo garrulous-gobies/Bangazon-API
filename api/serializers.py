@@ -1,6 +1,17 @@
 from rest_framework import serializers
 from api.models import *
 
+class EmployeeInDepartmentSerializer(serializers.HyperlinkedModelSerializer):
+    """Used with the DepartmentSerializer to nest employee information within each department when the proper url extension is provided
+
+    Authors: Brendan McCray
+    """
+
+    class Meta:
+      model = Employee
+      exclude = ('department',)
+
+
 class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
     def __init__(self, *args, **kwargs):
@@ -8,8 +19,11 @@ class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
         request = kwargs['context']['request']
         include = request.query_params.get('_include')
+
+        # note related name of department on Employee model
         if include == 'employees':
             self.fields['employees'] = EmployeeInDepartmentSerializer(source='employee_set', many=True, read_only=True)
+            print(self.fields)
 
     class Meta:
         model = Department
@@ -56,18 +70,6 @@ class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
       model = Employee
       fields = ('id','url','firstName','lastName','startDate','isSupervisor','department', 'current_computer')
-
-
-class EmployeeInDepartmentSerializer(serializers.HyperlinkedModelSerializer):
-    """Used with the DepartmentSerializer to nest employee information within each department when the proper url extension is provided
-
-    Authors: Brendan McCray
-    """
-
-    class Meta:
-      model = Employee
-      exclude = ('department',)
-
 
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
