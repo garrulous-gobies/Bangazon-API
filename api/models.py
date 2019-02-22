@@ -7,6 +7,15 @@ class Employee(models.Model):
     isSupervisor = models.BooleanField(default=False)
     department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True, related_name='department')
 
+    @property
+    def current_computer(self):
+        current_computer = Employee_Computer.objects.get(employee=self, unassign_date=None)
+
+        if current_computer:
+            return current_computer
+        else:
+            return None
+
     def __str__(self):
         return f'{self.lastName}, {self.firstName}'
 
@@ -61,15 +70,8 @@ class Employee_Computer(models.Model):
     assign_date = models.DateField(null=True, blank=True)
     unassign_date = models.DateField(null=True, blank=True)
 
-    @property
-    def current_assignment(self):
-        if self.assign_date != None and self.unassign_date == None :
-            return True
-        else:
-            return False
-
     def __str__(self):
-        return f'currently_assigned: {self.current_assignment}'
+        return f'unassign_date: {self.unassign_date}'
 
 
 class PaymentType(models.Model):
