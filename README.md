@@ -36,3 +36,11 @@ Methods allowed: [GET, POST, PUT, DELETE]
 - get only incomplete orders at http://localhost:8000/api/v1/orders/?completed=false
 - get product resources on a specific order by appending `?_include=products` to the url (e.g. http://localhost:8000/api/v1/orders/1/?_include=products)
 - get an expanded customer resource on a specific order by appending `?_include=customers` to the url (e.g. http://localhost:8000/api/v1/orders/1/?_include=customers)
+
+### Employees
+Methods allowed: [GET, POST, PUT]
+
+- get a list of all employees at http://localhost:8000/api/v1/employees/
+- get a specific employee by appending an id to the url (e.g. http://localhost:8000/api/v1/employees/1/)
+- Each employee representation lists the name of the associated department
+- Each employee representation lists the currently-assigned computer (null if none assigned)
