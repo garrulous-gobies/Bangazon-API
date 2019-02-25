@@ -26,6 +26,7 @@ Methods allowed: [GET, POST, PUT]
 - get a customer and all products that the customer is selling by appending `?_include=products` to the end of the url (e.g. http://localhost:8000/api/v1/customers/?_include=products)
 - get a customer and all payment types that the customer has available by appending `?_include=payments` to the end of the url (e.g. http://localhost:8000/api/v1/customers/?_include=payments)
 - search for any customer property that matches a query by appending `?q=` followed by your query to the end of the url (e.g. http://localhost:8000/api/v1/customers/?q=woods would return any customers with information related to 'woods' (first name, last name, street address, etc.). This query does not have to be an exact match to return results.)
+- search for customers that have never placed an order  by appending `?active=false` to the url (e.g. http://localhost:8000/api/v1/customers/?active=false)
 
 ### Orders
 Methods allowed: [GET, POST, PUT, DELETE]
@@ -36,6 +37,7 @@ Methods allowed: [GET, POST, PUT, DELETE]
 - get only incomplete orders at http://localhost:8000/api/v1/orders/?completed=false
 - get product resources on a specific order by appending `?_include=products` to the url (e.g. http://localhost:8000/api/v1/orders/1/?_include=products)
 - get an expanded customer resource on a specific order by appending `?_include=customers` to the url (e.g. http://localhost:8000/api/v1/orders/1/?_include=customers)
+- accessing an order detail view will show the product details associated with that order
 
 # Employees
 Methods allowed: [GET, POST, PUT]

@@ -130,12 +130,14 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         model = Product
         fields = '__all__'
 
+
 class OrderProductSerializer(serializers.HyperlinkedModelSerializer):
     product = ProductSerializer()
 
     class Meta:
         model = OrderProduct
         fields = ('product',)
+
 
 class ProductTypeSerializer(serializers.HyperlinkedModelSerializer):
 
