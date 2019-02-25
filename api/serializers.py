@@ -142,3 +142,15 @@ class ProductTypeSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = ProductType
         fields = ('id', 'url', 'name')
+
+class OrderDetailSerializer(serializers.HyperlinkedModelSerializer):
+    '''Used to display a detail view of orders and have the product details of each order also appear
+
+    Authors: Austin Zoradi, Nolan Little
+    '''
+
+    product = OrderProductSerializer(source='orderproduct_set', many=True, read_only=True)
+    
+    class Meta:
+        model = Order
+        fields = ('id', 'url', 'customer', 'payment_type', 'payment_date', 'product')

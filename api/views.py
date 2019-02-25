@@ -66,8 +66,20 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
+    '''Summary: ViewSet for Orders. Can view all orders in a list view, and the order detail with product details appended on as well.
+
+    Verbs supported: GET, POST, PUT, DELETE
+
+    Author(s): Ausitn Zoradi, Brendan McCray, Nolan Little
+    '''
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return OrderDetailSerializer
+        else:
+            return OrderSerializer
+
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
 
     def get_queryset(self):
         query_set = self.queryset
