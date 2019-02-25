@@ -39,7 +39,7 @@ Methods allowed: [GET, POST, PUT, DELETE]
 - get an expanded customer resource on a specific order by appending `?_include=customers` to the url (e.g. http://localhost:8000/api/v1/orders/1/?_include=customers)
 - accessing an order detail view will show the product details associated with that order
 
-# Employees
+### Employees
 Methods allowed: [GET, POST, PUT]
 
 - get a list of all employees at http://localhost:8000/api/v1/employees/
