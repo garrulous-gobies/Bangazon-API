@@ -12,7 +12,7 @@
 We've already created a file to populate the database file.
 - run `python manage.py makemigrations api`
 - run `python manage.py migrate`
-## ADD INFO HERE ----------------------------------------------------------------------
+- run `./django_data.sh api data.json`
 
 ### Starting the project
 - run `python manage.py runserver`
