@@ -44,3 +44,50 @@ Methods allowed: [GET, POST, PUT]
 - get a specific employee by appending an id to the url (e.g. http://localhost:8000/api/v1/employees/1/)
 - Each employee representation lists the name of the associated department
 - Each employee representation lists the currently-assigned computer (null if none assigned)
+
+### Computers
+Methods allowed: [GET, POST, PUT, DELETE]
+
+- get a list of all computers at http://localhost:8000/api/v1/computers/
+- get a specific computer by appending an id to the list url (e.g. http://localhost:8000/api/v1/computers/1/)
+
+
+### Products
+Methods allowed: [GET, POST, PUT, DELETE]
+
+- get a list of all products at http://localhost:8000/api/v1/product/
+- get a specific product by appending an id to the list url (e.g. http://localhost:8000/api/v1/computers/1/)
+-Foreign Key relationship to ProductType
+
+### ProductType
+Methods allowed: [GET, POST, PUT, DELETE]
+
+- get a list of all productTypes at http://localhost:8000/api/v1/productType/
+- get a specific product type by appending an id to the list url (e.g. http://localhost:8000/api/v1/productType/1/)
+
+### PaymentType
+Methods allowed: [GET, POST, PUT, DELETE]
+
+- get a list of all paymentTypes at http://localhost:8000/api/v1/paymentType/
+- get a specific payment type by appending an id to the list url (e.g.http://localhost:8000/api/v1/paymentType/1/)
+-Foreign Key relationship to customer
+
+### Departments
+Methods allowed: [GET, POST, PUT]
+
+- get a list of all departments at http://localhost:8000/api/v1/departments
+- get a specific department by appending an id to the list url (e.g.http://localhost:8000/api/v1/departments/1/)
+- can embed employees with "?_include=employees" to view a list of all employees in each department
+- Can filter departments with budgets greater than a certain number with "?_filter=budget&_gt=
+
+## trainingProgram
+
+Methods allowed [GET, POST, PUT, DELETE(only if training program is in the future)]
+
+- get a list of all training programs at http://localhost:8000/api/v1/trainingProgram
+- get a specific department by appending an id to the list url (e.g.http://localhost:8000/api/v1/trainingProgram/1/)
+-Employees related to the training program (signed up) will be included in the response
+- appending the query string ?completed=false will return only training programs with a date in the future (e.g. http://localhost:8000/api/v1/trainingProgram?completed=false)
+
+
+
