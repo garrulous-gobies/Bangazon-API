@@ -63,6 +63,15 @@ class Customer(models.Model):
     date_joined = models.DateField(default=None, null=True, blank=True)
     date_deleted = models.DateField(default=None, null=True, blank=True)
 
+    @property
+    def has_placed_order(self):
+        order = Order.objects.filter(customer=self)
+        if len(order) == 0:
+            order = False
+        else:
+            order = True
+        return order
+
     def __str__(self):
         return f"{self.lastName}, {self.firstName}, {self.street_address}, {self.city}, {self.state}, {self.zipcode}, {self.phone_number}"
 
@@ -168,7 +177,6 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.title}'
 
-
 class OrderProduct(models.Model):
     """Defines a join table explicitly for products that exist on a given order
 
@@ -182,3 +190,19 @@ class OrderProduct(models.Model):
 
     def __str__(self):
         return f'{self.order} {self.product}'
+
+class TrainingProgram(models.Model):
+    name = models.CharField(max_length=50)
+    startDate = models.DateField(null=True, blank=True)
+    endDate = models.DateField(null=True, blank=True)
+    maxAttendees = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.name}'
+
+class EmployeeTrainingProgram(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    trainingProgram = models.ForeignKey(TrainingProgram, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f'{self.employee} {self.trainingProgram}'

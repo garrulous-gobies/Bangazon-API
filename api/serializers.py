@@ -69,7 +69,8 @@ class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
       model = Employee
-      fields = ('id','url','firstName','lastName','startDate','isSupervisor','department', 'current_computer')
+      # fields = ('id','url','firstName','lastName','startDate','isSupervisor','department', 'current_computer')
+      fields = '__all__'
 
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
@@ -130,6 +131,7 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         model = Product
         fields = '__all__'
 
+
 class OrderProductSerializer(serializers.HyperlinkedModelSerializer):
     product = ProductSerializer()
 
@@ -137,12 +139,35 @@ class OrderProductSerializer(serializers.HyperlinkedModelSerializer):
         model = OrderProduct
         fields = ('product',)
 
+
 class ProductTypeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = ProductType
         fields = ('id', 'url', 'name')
 
+
+class EmployeeTrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
+
+  employee = EmployeeSerializer()
+
+  class Meta:
+    model = EmployeeTrainingProgram
+    fields = ('employee',)
+
+class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
+  """Used with the EmployeeTrainingProgram to nest employee information within each training program
+
+  Authors: Zac Jones, Austin Zoradi
+  """
+
+  employee = EmployeeTrainingProgramSerializer(source='employeetrainingprogram_set', many=True, read_only=True)
+
+  class Meta:
+    model = TrainingProgram
+    # fields = '__all__'
+    fields = ('name', 'url', 'startDate', 'endDate', 'maxAttendees', 'employee')
+  
 class OrderDetailSerializer(serializers.HyperlinkedModelSerializer):
     '''Used to display a detail view of orders and have the product details of each order also appear
 

@@ -6,6 +6,7 @@ from rest_framework.reverse import reverse
 from rest_framework import filters
 from api.models import *
 from api.serializers import *
+import datetime
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -74,7 +75,11 @@ class CustomerViewSet(viewsets.ModelViewSet):
         if keyword is not None:
             query_set = query_set.filter(Q(firstName__icontains=keyword) | Q(lastName__icontains=keyword) | Q(street_address__icontains=keyword) | Q(city__icontains=keyword) | Q(state__icontains=keyword) | Q(zipcode__icontains=keyword) | Q(phone_number__icontains=keyword))
 
-        return query_set
+        keyword = self.request.query_params.get('active')
+        if keyword == 'false' or keyword == 'False':
+            query_set = [cust for cust in query_set if cust.has_placed_order == False]
+
+         return query_set
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -95,7 +100,6 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_set = self.queryset
-        print('query params', self.request.query_params)
 
         # search all parameters of each customer based on the params provided
         keyword = self.request.query_params.get('completed')
@@ -153,3 +157,25 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
     '''
     queryset = ProductType.objects.all()
     serializer_class = ProductTypeSerializer
+
+
+class TrainingProgramViewSet(viewsets.ModelViewSet):
+    '''Summary: ViewSet for trainings.
+
+    Verbs supported: GET, POST, PUT, DELETE
+
+    Author(s): Zac Jones
+    '''
+    queryset = TrainingProgram.objects.all()
+    serializer_class = TrainingProgramSerializer
+
+    def get_queryset(self):
+      current_date = datetime.date.today()
+      query_set = TrainingProgram.objects.all()
+      keyword = self.request.query_params.get('completed')
+
+      if keyword == 'true':
+        query_set = query_set.filter(endDate__lt=current_date)
+      elif keyword == 'false':
+        query_set = query_set.filter(endDate__gte=current_date)
+      return query_set
