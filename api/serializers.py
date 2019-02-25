@@ -154,6 +154,10 @@ class EmployeeTrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
     fields = ('employee',)
 
 class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
+  """Used with the EmployeeTrainingProgram to nest employee information within each training program
+
+  Authors: Zac Jones, Austin Zoradi
+  """
 
   employee = EmployeeTrainingProgramSerializer(source='employeetrainingprogram_set', many=True, read_only=True)
 
