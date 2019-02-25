@@ -9,4 +9,4 @@ rm db.sqlite3; #deletes the database file.
 python manage.py migrate; #runs the migration.
 python manage.py makemigrations $1; #creates the migration.
 python manage.py migrate; #runs the migration.
-# python manage.py $2 #runs the file we created above to seed the new db
+python manage.py loaddata $2 #runs the file we created above to seed the new db
