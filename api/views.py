@@ -24,13 +24,12 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 
 class DepartmentViewSet(viewsets.ModelViewSet):
-    '''Summary: Can view departments and department details. Can search in url with "?_include=employees" to view all employees in each department department. Can search for departments with budgets greater than a certain number with "?_filter=budget&_gt=  ". 
-    
-    Verbs supported: GET, POST, PUT
-    
-    Author(s): Austin Zoradi, Roger Brondon McCray, Nolan Little, Zac Jones
-    '''
+    '''Summary: Can view departments and department details. Can search in url with "?_include=employees" to view all employees in each department. Can search for departments with budgets greater than a certain number with "?_filter=budget&_gt=  ".
 
+    Verbs supported: GET, POST, PUT
+
+    Author(s): Austin Zoradi, Brendan McCray, Nolan Little, Zac Jones
+    '''
 
     queryset = Department.objects.all()
     serializer_class = DepartmentSerializer
@@ -93,10 +92,10 @@ class ComputerViewSet(viewsets.ModelViewSet):
 
 
 class PaymentTypeViewSet(viewsets.ModelViewSet):
-    '''Summary: ViewSet for payment types. Can view all payment types and details. 
+    '''Summary: ViewSet for payment types. Can view all payment types and details.
 
     Verbs supported: GET, POST, PUT, DELETE
-    
+
     Author(s): Ausitn Zoradi
     '''
 
@@ -110,10 +109,10 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 
 class ProductTypeViewSet(viewsets.ModelViewSet):
-    '''Summary: ViewSet for product types. Can view all product types and details. 
+    '''Summary: ViewSet for product types. Can view all product types and details.
 
     Verbs supported: GET, POST, PUT, DELETE
-    
+
     Author(s): Ausitn Zoradi
     '''
     queryset = ProductType.objects.all()
