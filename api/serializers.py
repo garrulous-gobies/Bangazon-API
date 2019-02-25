@@ -131,12 +131,14 @@ class ProductSerializer(serializers.HyperlinkedModelSerializer):
         model = Product
         fields = '__all__'
 
+
 class OrderProductSerializer(serializers.HyperlinkedModelSerializer):
     product = ProductSerializer()
 
     class Meta:
         model = OrderProduct
         fields = ('product',)
+
 
 class ProductTypeSerializer(serializers.HyperlinkedModelSerializer):
 
@@ -165,3 +167,15 @@ class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
     model = TrainingProgram
     # fields = '__all__'
     fields = ('name', 'url', 'startDate', 'endDate', 'employee')
+  
+class OrderDetailSerializer(serializers.HyperlinkedModelSerializer):
+    '''Used to display a detail view of orders and have the product details of each order also appear
+
+    Authors: Austin Zoradi, Nolan Little
+    '''
+
+    product = OrderProductSerializer(source='orderproduct_set', many=True, read_only=True)
+    
+    class Meta:
+        model = Order
+        fields = ('id', 'url', 'customer', 'payment_type', 'payment_date', 'product')

@@ -56,23 +56,37 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
   def get_queryset(self):
     query_set = self.queryset
-    print('query params', self.request.query_params)
 
     # search all parameters of each customer based on the params provided
     keyword = self.request.query_params.get('q')
     if keyword is not None:
         query_set = query_set.filter(Q(firstName__icontains=keyword) | Q(lastName__icontains=keyword) | Q(street_address__icontains=keyword) | Q(city__icontains=keyword) | Q(state__icontains=keyword) | Q(zipcode__icontains=keyword) | Q(phone_number__icontains=keyword))
 
+    keyword = self.request.query_params.get('active')
+    if keyword == 'false' or keyword == 'False':
+        query_set = [cust for cust in query_set if cust.has_placed_order == False]
+
     return query_set
 
 
 class OrderViewSet(viewsets.ModelViewSet):
+    '''Summary: ViewSet for Orders. Can view all orders in a list view, and the order detail with product details appended on as well.
+
+    Verbs supported: GET, POST, PUT, DELETE
+
+    Author(s): Ausitn Zoradi, Brendan McCray, Nolan Little
+    '''
+
+    def get_serializer_class(self):
+        if self.action == 'retrieve':
+            return OrderDetailSerializer
+        else:
+            return OrderSerializer
+
     queryset = Order.objects.all()
-    serializer_class = OrderSerializer
 
     def get_queryset(self):
         query_set = self.queryset
-        print('query params', self.request.query_params)
 
         # search all parameters of each customer based on the params provided
         keyword = self.request.query_params.get('completed')
