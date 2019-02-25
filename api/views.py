@@ -79,7 +79,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
         if keyword == 'false' or keyword == 'False':
             query_set = [cust for cust in query_set if cust.has_placed_order == False]
 
-         return query_set
+        return query_set
 
 
 class OrderViewSet(viewsets.ModelViewSet):
