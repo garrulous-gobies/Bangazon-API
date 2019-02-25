@@ -68,7 +68,6 @@ class CustomerViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         query_set = self.queryset
-        print('query params', self.request.query_params)
 
         # search all parameters of each customer based on the params provided
         keyword = self.request.query_params.get('q')
