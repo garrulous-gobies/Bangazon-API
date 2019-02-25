@@ -6,6 +6,7 @@ from rest_framework.reverse import reverse
 from rest_framework import filters
 from api.models import *
 from api.serializers import *
+import datetime
 
 @api_view(['GET'])
 def api_root(request, format=None):
@@ -130,3 +131,25 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
     '''
     queryset = ProductType.objects.all()
     serializer_class = ProductTypeSerializer
+
+
+class TrainingProgramViewSet(viewsets.ModelViewSet): 
+    '''Summary: ViewSet for trainings.
+
+    Verbs supported: GET, POST, PUT, DELETE
+    
+    Author(s): Zac Jones
+    '''
+    queryset = TrainingProgram.objects.all() 
+    serializer_class = TrainingProgramSerializer
+
+    def get_queryset(self):         
+      current_date = datetime.date.today()
+      query_set = TrainingProgram.objects.all()
+      keyword = self.request.query_params.get('completed')
+      
+      if keyword == 'true':
+        query_set = query_set.filter(endDate__lt=current_date)
+      elif keyword == 'false':
+        query_set = query_set.filter(endDate__gte=current_date)
+      return query_set

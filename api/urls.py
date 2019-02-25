@@ -12,6 +12,7 @@ router.register('computers', views.ComputerViewSet)
 router.register('paymentType', views.PaymentTypeViewSet)
 router.register('productType', views.ProductTypeViewSet)
 router.register('product', views.ProductViewSet)
+router.register('trainingProgram', views.TrainingProgramViewSet)
 
 urlpatterns = [
   path('api/v1/', include(router.urls))
