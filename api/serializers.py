@@ -166,7 +166,7 @@ class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:
     model = TrainingProgram
     # fields = '__all__'
-    fields = ('name', 'url', 'startDate', 'endDate', 'employee')
+    fields = ('name', 'url', 'startDate', 'endDate', 'maxAttendees', 'employee')
   
 class OrderDetailSerializer(serializers.HyperlinkedModelSerializer):
     '''Used to display a detail view of orders and have the product details of each order also appear
