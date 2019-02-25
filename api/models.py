@@ -192,5 +192,8 @@ class TrainingProgram(models.Model):
         return f'{self.name}'
 
 class EmployeeTrainingProgram(models.Model):
-    employee = models.ForeignKey('employee', on_delete=models.SET_NULL, null=True, related_name='employee')
-    trainingProgram = models.ForeignKey('TrainingProgram', on_delete=models.SET_NULL, null=True, related_name='employee')
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
+    trainingProgram = models.ForeignKey(TrainingProgram, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return f'{self.employee} {self.trainingProgram}'

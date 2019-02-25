@@ -69,7 +69,8 @@ class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
       model = Employee
-      fields = ('id','url','firstName','lastName','startDate','isSupervisor','department', 'current_computer')
+      # fields = ('id','url','firstName','lastName','startDate','isSupervisor','department', 'current_computer')
+      fields = '__all__'
 
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
@@ -143,14 +144,20 @@ class ProductTypeSerializer(serializers.HyperlinkedModelSerializer):
         model = ProductType
         fields = ('id', 'url', 'name')
 
-class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
-
-    class Meta:
-        model = TrainingProgram
-        fields = '__all__'
 
 class EmployeeTrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
 
-    class Meta:
-        model = EmployeeTrainingProgram
-        fields = '__all__'
+  employee = EmployeeSerializer()
+
+  class Meta:
+    model = EmployeeTrainingProgram
+    fields = ('employee',)
+
+class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
+
+  employee = EmployeeTrainingProgramSerializer(source='employeetrainingprogram_set', many=True, read_only=True)
+
+  class Meta:
+    model = TrainingProgram
+    # fields = '__all__'
+    fields = ('name', 'url', 'startDate', 'endDate', 'employee')
