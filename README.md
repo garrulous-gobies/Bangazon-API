@@ -79,12 +79,12 @@ Methods allowed: [GET, POST, PUT]
 
 - get a list of all departments at http://localhost:8000/api/v1/departments
 - get a specific department by appending an id to the list url (e.g.http://localhost:8000/api/v1/departments/1/)
-- can embed employees with "?_include=employees" to view a list of all employees in each department
-- Can filter departments with budgets greater than a certain number with "?_filter=budget&_gt=
+- can embed employees with "?_include=employees" to view a list of all employees in each department (e.g.http://localhost:8000/api/v1/departments/?_include=employees)
+- Can filter departments with budgets greater than a certain number with "?_filter=budget&_gt= (e.g.http://localhost:8000/api/v1/departments/?_filter=budget&_gt=40000)
 
-## trainingProgram
+### trainingProgram
 
-Methods allowed [GET, POST, PUT, DELETE(only if training program is in the future)]
+Methods allowed [GET, POST, PUT, DELETE (only if training program is in the future)]
 
 - get a list of all training programs at http://localhost:8000/api/v1/trainingProgram
 - get a specific department by appending an id to the list url (e.g.http://localhost:8000/api/v1/trainingProgram/1/)
