@@ -9,7 +9,7 @@ class EmployeeInDepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
       model = Employee
-      exclude = ('department',)
+      fields = ('id','firstName','lastName','startDate','isSupervisor','url')
 
 
 class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
@@ -26,14 +26,14 @@ class DepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Department
-        fields = '__all__'
+        fields = ('id','name','budget','url')
 
 
 class ComputerSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Computer
-        fields = '__all__'
+        fields = ('id','model','manufacturer','purchaseDate','decommissionDate','url')
 
 
 class EmployeeComputerSerializer(serializers.HyperlinkedModelSerializer):
@@ -52,7 +52,7 @@ class EmployeeDepartmentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Department
-        exclude = ('budget',)
+        fields = ('id','name','url')
 
 
 class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
@@ -68,7 +68,7 @@ class EmployeeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
       model = Employee
-      fields = '__all__'
+      fields = ('id', 'firstName', 'lastName', 'startDate', 'isSupervisor', 'department', 'current_computer','url')
 
 
 class CustomerSerializer(serializers.HyperlinkedModelSerializer):
@@ -87,14 +87,14 @@ class CustomerSerializer(serializers.HyperlinkedModelSerializer):
 
   class Meta:
     model = Customer
-    fields = '__all__'
+    fields = ('id','firstName','lastName','street_address','city','state','zipcode','phone_number','date_joined','date_deleted','url')
 
 
 class CustomerOnOrderSerializer(serializers.HyperlinkedModelSerializer):
 
   class Meta:
     model = Customer
-    fields = '__all__'
+    fields = ('id','firstName','lastName','street_address','city','state','zipcode','phone_number','date_joined','date_deleted','url')
 
 
 class OrderSerializer(serializers.HyperlinkedModelSerializer):
@@ -113,21 +113,21 @@ class OrderSerializer(serializers.HyperlinkedModelSerializer):
 
   class Meta:
     model = Order
-    fields = '__all__'
+    fields = ('id','payment_date','customer','payment_type','url')
 
 
 class PaymentTypeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = PaymentType
-        fields = '__all__'
+        fields = ('id','name','accountNumber','customer','url')
 
 
 class ProductSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ('id','title','price','description','quantity','customer','productType','url')
 
 
 class OrderProductSerializer(serializers.HyperlinkedModelSerializer):
@@ -163,8 +163,7 @@ class TrainingProgramSerializer(serializers.HyperlinkedModelSerializer):
 
   class Meta:
     model = TrainingProgram
-    # fields = '__all__'
-    fields = ('name', 'url', 'startDate', 'endDate', 'maxAttendees', 'employee')
+    fields = ('id','name', 'startDate', 'endDate', 'maxAttendees', 'employee','url')
 
 class OrderDetailSerializer(serializers.HyperlinkedModelSerializer):
     '''Used to display a detail view of orders and have the product details of each order also appear
