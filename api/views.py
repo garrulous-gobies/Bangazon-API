@@ -67,7 +67,7 @@ class CustomerViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post', 'put']
 
     def get_queryset(self):
-        query_set = self.queryset
+        query_set = Customer.objects.all()
 
         # search all parameters of each customer based on the params provided
         keyword = self.request.query_params.get('q')
@@ -98,7 +98,7 @@ class OrderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.all()
 
     def get_queryset(self):
-        query_set = self.queryset
+        query_set = Order.objects.all()
 
         # search all parameters of each customer based on the params provided
         keyword = self.request.query_params.get('completed')
